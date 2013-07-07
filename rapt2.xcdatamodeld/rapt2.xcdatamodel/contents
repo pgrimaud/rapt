@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Ligne" representedClassName="Ligne" syncable="YES">
+        <attribute name="arrive" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inBase" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="stations" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Station" inverseName="ligne" inverseEntity="Station" syncable="YES"/>
+    </entity>
+    <entity name="Station" representedClassName="Station" syncable="YES">
+        <attribute name="inBase" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ligne" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Ligne" inverseName="stations" inverseEntity="Ligne" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Ligne" positionX="315" positionY="143" width="128" height="103"/>
+        <element name="Station" positionX="313" positionY="342" width="128" height="88"/>
+    </elements>
+</model>
