@@ -486,47 +486,6 @@
         <image name="news.png" width="1024" height="1024"/>
         <image name="tag.png" width="1024" height="1024"/>
     </resources>
-    <classes>
-        <class className="MainViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="sidebarButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="MapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="LocateMe:"/>
-                <relationship kind="outlet" name="LocateMe" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="MapRapt" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="sidebarButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="MoFavorisViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoFavorisViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="sidebarButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="MoListHoraireViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoListHoraireViewController.h"/>
-        </class>
-        <class className="MoListStationViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoListStationViewController.h"/>
-        </class>
-        <class className="MoListeLigneViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoListeLigneViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="SWRevealViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWRevealViewController.h"/>
-        </class>
-        <class className="SidebarViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SidebarViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
