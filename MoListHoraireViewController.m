@@ -63,7 +63,7 @@
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm"];
-;
+
     MoHoraire * horaire = [self.horaires objectAtIndex:indexPath.row];
     cell.textLabel.text = horaire.terminus;
     if([dateFormatter stringFromDate:horaire.horaire] == NULL){

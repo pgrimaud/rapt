@@ -2,8 +2,8 @@
 //  SidebarViewController.m
 //  SidebarDemo
 //
-//  Created by Simon on 29/6/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by Jeremy on 29/6/13.
+//  Copyright (c) 2013 Jeremy. All rights reserved.
 //
 
 #import "SidebarViewController.h"
@@ -33,7 +33,7 @@
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    _menuItems = @[@"title", @"home", @"favoris", @"map",@"apropos"];
+    _menuItems = @[@"title", @"Tempsreel", @"favoris", @"map",@"apropos"];
 
 }
 

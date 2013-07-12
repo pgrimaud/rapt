@@ -1,19 +1,18 @@
 //
-//  MoListeLigneViewController.m
+//  MoFavorisHoraireViewController.m
 //  rapt2
 //
-//  Created by Moufasa on 06/07/13.
+//  Created by Moufasa on 08/07/13.
 //  Copyright (c) 2013 Moufasa. All rights reserved.
 //
 
-#import "MoListeLigneViewController.h"
-#import "SWRevealViewController.h"
+#import "MoFavorisHoraireViewController.h"
 
-@interface MoListeLigneViewController ()
+@interface MoFavorisHoraireViewController ()
 
 @end
 
-@implementation MoListeLigneViewController
+@implementation MoFavorisHoraireViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,25 +26,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    _sidebarButton.tintColor = [UIColor colorWithWhite:0.96f alpha:0.2f];
-    
-    // Add pan gesture to hide the sidebar
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.lignes = [MoApiFetcher allLignes];    
+    NSArray * stations = [self.ligne.stations allObjects];
+    self.horaires = [MoApiFetcher getHoraireForStation:[stations objectAtIndex:0] andLigne:self.ligne];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,23 +51,27 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.lignes count];
+    // Return the number of rows in the section.
+    return [self.horaires count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"CellHoraire";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
     
-    Ligne * ligne = [self.lignes objectAtIndex:indexPath.row];
-    //    cell.textLabel.text = ligne.name;
-    //    cell.detailTextLabel.text = ligne.arrive;
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"RER %@",ligne.name];
-    cell.detailTextLabel.text = [ligne.arrive stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    
+    MoHoraire * horaire = [self.horaires objectAtIndex:indexPath.row];
+    cell.textLabel.text = horaire.terminus;
+    if([dateFormatter stringFromDate:horaire.horaire] == NULL){
+        cell.detailTextLabel.text = @"Train sans arret";
+    }
+    else{
+        cell.detailTextLabel.text = [dateFormatter stringFromDate:horaire.horaire];
+    }
+
     return cell;
 }
 
@@ -133,19 +125,6 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    
-    
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"Happy"]) {
-        
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        //MoListStationViewController *destViewController = segue.destinationViewController;
-        
-        [segue.destinationViewController setLigne:(Ligne *)[self.lignes objectAtIndex:indexPath.row]];
-    }
 }
 
 @end

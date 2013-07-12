@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Ligne.h"
+#import "Station.h"
+#import "MoAppDelegate.h"
 @interface MoFavorisViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic,retain) NSMutableArray * lignes;

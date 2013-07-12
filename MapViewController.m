@@ -2,13 +2,15 @@
 //  MapViewController.m
 //  SidebarDemo
 //
-//  Created by Simon on 30/6/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by Piotr on 30/6/13.
+//  Copyright (c) 2013 Piotr. All rights reserved.
 //
 
 #import "MapViewController.h"
 #import "SWRevealViewController.h"
 #import "Location.h"
+#import <MapKit/MapKit.h>
+#import <Social/Social.h>
 
 @interface MapViewController ()
 
@@ -16,11 +18,6 @@
 
 @implementation MapViewController
 @synthesize MapRapt;
-
-- (IBAction)LocateMe:(id)sender {
-    [MapRapt setUserTrackingMode:true];
-    MapRapt.zoomEnabled = true;
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,7 +57,7 @@
             CLLocationCoordinate2D coordinate;
             coordinate.latitude = latitude.doubleValue;
             coordinate.longitude = longitude.doubleValue;
-            Location *annotation = [[Location alloc] initWithName:crimeDescription address:address coordinate:coordinate] ;
+            Location *annotation = [[Location alloc] initWithName:crimeDescription address:address coordinate:coordinate];
             [MapRapt addAnnotation:annotation];
             
         }
@@ -77,5 +74,36 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+//Locate Me
+
+- (IBAction)LocateMe:(id)sender {
+    [MapRapt setUserTrackingMode:true];
+    MapRapt.zoomEnabled = true;
+
+}
+
+//Facebook post
+
+- (IBAction)postToFacebook:(id)sender {
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [controller setInitialText:@"#RATP, controlleurs près de [RENSEIGNER ICI]"];
+        [self presentViewController:controller animated:YES completion:Nil];
+    }
+}
+
+//Twitter post
+
+- (IBAction)postToTwitter:(id)sender {
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        SLComposeViewController *tweetSheet = [SLComposeViewController
+                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [tweetSheet setInitialText:@"#RATP, controlleurs près de [RENSEIGNER ICI]"];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }
+}
 
 @end

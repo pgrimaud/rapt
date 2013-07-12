@@ -14,5 +14,6 @@
 @interface MoListeLigneViewController : UITableViewController
 
 @property (nonatomic,retain) NSArray * lignes;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 
 @end

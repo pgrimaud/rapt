@@ -2,8 +2,8 @@
 //  SidebarViewController.h
 //  SidebarDemo
 //
-//  Created by Simon on 29/6/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by Jeremy on 29/6/13.
+//  Copyright (c) 2013 Jeremy. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

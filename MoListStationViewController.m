@@ -33,13 +33,17 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     //NSLog(@"ViewDidLoad : %@",self.ligne.name);
-    self.ligne = [MoApiFetcher getStationForLigne:self.ligne];
-    NSSortDescriptor *nameDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-//    self.ligne.stations = [NSSet setWithArray:[self.ligne.stations sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]]];
-    self.stations = (NSMutableArray *)[self.ligne.stations sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.ligne = [MoApiFetcher getForcedStationForLigne:self.ligne];
+    NSSortDescriptor *nameDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    //    self.ligne.stations = [NSSet setWithArray:[self.ligne.stations sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]]];
+    self.stations = (NSMutableArray *)[self.ligne.stations sortedArrayUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
 
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -61,8 +65,25 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    static NSString *CellIdentifier = @"CellStation";
+//    static NSString * CellIdentifierSave = @"CellStationSave";
+//    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+//    if(cell == nil){
+//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierSave forIndexPath:indexPath];
+//    }
+
     static NSString *CellIdentifier = @"CellStation";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+    
+    if (cell==nil) {
+        static NSString *CellIdentifier = @"CellStationSave";
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    }
+    else{
+        static NSString *CellIdentifier = @"CellStation";
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    }
+    
     //NSArray * stations = [self.ligne.stations allObjects];
     Station * station = [self.stations objectAtIndex:indexPath.row];
     cell.textLabel.text = [station.name stringByReplacingOccurrencesOfString:@"+" withString:@" "];
@@ -118,8 +139,34 @@
      // ...
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
+     
      */
+    static NSString * CellIdentifierSave = @"CellStationSave";
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierSave];
+    if(cell != nil){
+        NSError * error = nil; //hack error
+        NSManagedObjectContext * context = [(MoAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     
+        self.ligne.inBase = YES;
+       // [[self.stations objectAtIndex:indexPath.row] setInBase:YES]; //indexPath.row
+        Station * currentStation = [self.stations objectAtIndex:indexPath.row];
+        currentStation.inBase = YES;
+        self.ligne.stations = [NSSet setWithObject:currentStation];
+        //[lorem addStationsObject:station];
+        //NSArray * tmp = [self.ligne.stations allObjects];
+        //NSLog(@"on va sauvegardé : ligne %@ station : %@",self.ligne.name,[(Station *)[tmp objectAtIndex:indexPath.row] name]);
+        NSLog(@"On sauvegarde %d stations",[self.ligne.stations count]);
+        [context save:&error];
+        
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Sauvegarde"
+                              message:[[currentStation.name stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByAppendingString:@" a été sauvegardée."]
+                              delegate:nil
+                              cancelButtonTitle:@"Confirmer"
+                              otherButtonTitles:nil];
+        [alert show];
+     
+    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

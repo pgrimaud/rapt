@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Ligne.h"
+#import "Station.h"
+
 @interface MoAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

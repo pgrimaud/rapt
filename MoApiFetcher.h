@@ -16,6 +16,8 @@
 +(NSArray *) allLignes;
 +(Ligne *) getOneLigne: (NSURL *) url;
 +(Ligne *) getStationForLigne : (Ligne *) ligne;
++(Ligne *) getForcedStationForLigne : (Ligne *) ligne;
+
 +(NSMutableArray *) getHoraireForStation : (Station *) station andLigne :  (Ligne *) ligne;
 
 @end

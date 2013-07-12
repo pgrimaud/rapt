@@ -82,6 +82,66 @@
     }
 }
 
+
++(Ligne *) getForcedStationForLigne : (Ligne *) ligne{
+    
+    NSString * strUrl = [NSString stringWithFormat:@"%@%@%@",BASEAPI ,URI_STATION,ligne.name];
+    
+    NSURL * url = [NSURL URLWithString:strUrl];
+    NSData * data = [NSData dataWithContentsOfURL:url];
+    if (!data)
+    {
+        return nil;
+    }
+    
+    //Transformer le JSON en objet natif ObjC
+    id JSonAnswer = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    NSArray * stations = [JSonAnswer objectForKey:@"stations"];
+    
+    NSError * error = nil; //hack error
+    NSManagedObjectContext * context = [self managedObjectContext];
+    NSFetchRequest * request = [[NSFetchRequest alloc]init];
+    NSEntityDescription * entity = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:context];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inBase == 1"];
+    [request setPredicate:predicate];
+    [request setEntity:entity];
+    
+    NSMutableArray * lorem = (NSMutableArray *)[context executeFetchRequest:request error:&error];
+    Station * savedStation;
+    //BOOL isEmpty = false;
+    [ligne removeStations:ligne.stations];
+    if([lorem count] > 0){
+        
+        savedStation = [lorem objectAtIndex:0];
+        NSLog(@"On a bien une station sauvegardé : ligne %@ station : %@",savedStation.ligne.name,savedStation.name);
+//        if([ligne.name isEqualToString:savedStation.ligne.name]){
+//            [ligne addStationsObject:savedStation];
+//        }
+    }
+    else{
+        NSLog(@"Aucune station save.");
+        //isEmpty = true;
+    }
+    
+    [ligne removeStations:ligne.stations];
+    for( NSDictionary * currentStation in stations){
+        
+        NSManagedObjectContext * context = [self managedObjectContext];
+       // if (isEmpty == true || ![savedStation.name isEqualToString:[currentStation objectForKey:@"station"]]) {
+            Station * station = [NSEntityDescription insertNewObjectForEntityForName:@"Station" inManagedObjectContext:context];
+            station.name = [currentStation objectForKey:@"station"];
+            station.inBase = NO;
+            if ([lorem count] > 0 && [savedStation.name isEqualToString:[currentStation objectForKey:@"station"]]) {
+                station.inBase = YES;
+                NSLog(@"FOUUUND");
+            }
+        
+            [ligne addStationsObject:station];
+        //}
+    }
+    return ligne;
+}
+
 +(Ligne *) getStationForLigne : (Ligne *) ligne{
     
     NSString * strUrl = [NSString stringWithFormat:@"%@%@%@",BASEAPI ,URI_STATION,ligne.name];
@@ -114,7 +174,7 @@
         //recuperer withFetchAll
         NSError * error = nil; //hack error
         NSArray * data = [context executeFetchRequest:request error:&error];
-        if([data count] < 1 ){
+        if([data count] <= 1 ){
             Station * station = [NSEntityDescription insertNewObjectForEntityForName:@"Station" inManagedObjectContext:context];
             station.name = [currentStation objectForKey:@"station"];
             [ligne addStationsObject:station];
@@ -127,6 +187,8 @@
     }
     return ligne;
 }
+
+
 +(NSMutableArray *) getHoraireForStation : (Station *) station andLigne :  (Ligne *) ligne{
     NSString * strUrl = [NSString stringWithFormat:@"%@/rer/%@/%@/%@",BASEAPI ,ligne.name ,station.name,ligne.arrive];
     NSURL * url = [NSURL URLWithString:strUrl];

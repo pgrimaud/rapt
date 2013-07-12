@@ -16,7 +16,7 @@
 @property (nonatomic, retain) NSString * arrive;
 @property (assign, readwrite) BOOL inBase;
 
-@property (nonatomic, retain) NSSet *stations;
+@property (nonatomic, retain) NSMutableSet *stations;
 @end
 
 @interface Ligne (CoreDataGeneratedAccessors)

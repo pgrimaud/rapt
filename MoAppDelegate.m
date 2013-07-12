@@ -26,13 +26,31 @@
     
     //CODE FOR INSERT
     
-    NSError * error = nil; //hack error
-    NSManagedObjectContext * context = [self managedObjectContext];
+   // NSError * error = nil; //hack error
+    //NSManagedObjectContext * context = [self managedObjectContext];
+    
+/*
+    Ligne * lorem;
+    lorem = [NSEntityDescription insertNewObjectForEntityForName:@"Ligne" inManagedObjectContext:context];
+    lorem.name = @"TEST";
+    lorem.arrive = @"TEST";
+    lorem.inBase = YES;
+    
+    Station * station = [NSEntityDescription insertNewObjectForEntityForName:@"Station" inManagedObjectContext:context];
+    station.name = @"TEST STATION";
+    station.inBase = YES;
+    [lorem addStationsObject:station];
+    
     Ligne * Ligne = [NSEntityDescription insertNewObjectForEntityForName:@"Ligne" inManagedObjectContext:context];
-    Ligne.name = @"TEST";
-    Ligne.arrive = @"TEST";
+    Ligne.name = @"a";
+    Ligne.arrive = @"st+germain+poissy+cergy";
     Ligne.inBase = YES;
     
+    Station * station2 = [NSEntityDescription insertNewObjectForEntityForName:@"Station" inManagedObjectContext:context];
+    station2.name = @"champigny";
+    station2.inBase = YES;
+    [Ligne addStationsObject:station2];
+  */  
    //[context save:&error];
     
     
